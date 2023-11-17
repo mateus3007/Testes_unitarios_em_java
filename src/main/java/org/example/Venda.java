@@ -1,5 +1,9 @@
 
 package org.example;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Venda {
@@ -63,4 +67,56 @@ public class Venda {
     public void setValorDesconto(double valorDesconto) {
         this.valorDesconto = valorDesconto;
     }
+    @Test
+    public void testCalculaValorTotalVendaSemDesconto() {
+        // Criação de itens
+        ItemVenda item1 = new ItemVenda("Produto 1", 50.0, 2);
+        ItemVenda item2 = new ItemVenda("Produto 2", 30.0, 3);
+
+        // Criação da venda
+        List<ItemVenda> itens = new ArrayList<>();
+        itens.add(item1);
+        itens.add(item2);
+        Venda venda = new Venda("Cliente", itens, 0.0);
+
+        // Cálculo do valor total da venda sem desconto
+        double expectedTotal = (50.0 * 2) + (30.0 * 3);
+        double actualTotal = venda.calcularValorTotal();
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void testCalculaValorTotalVendaComDesconto() {
+        // Criação de itens
+        ItemVenda item1 = new ItemVenda("Produto 1", 50.0, 2);
+        ItemVenda item2 = new ItemVenda("Produto 2", 30.0, 3);
+
+        // Criação da venda com desconto
+        List<ItemVenda> itens = new ArrayList<>();
+        itens.add(item1);
+        itens.add(item2);
+        double desconto = 20.0;
+        Venda venda = new Venda("Cliente", itens, desconto);
+
+        // Cálculo do valor total da venda com desconto
+        double expectedTotal = ((50.0 * 2) + (30.0 * 3)) - desconto;
+        double actualTotal = venda.calcularValorTotalComDesconto();
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void testCalculaValorUnitarioItem() {
+        // Criação de um item
+        ItemVenda item = new ItemVenda("Produto Teste", 10.0, 5);
+
+        // Cálculo do valor unitário do item
+        double expectedValue = 10.0;
+        double actualValue = item.calcularValorUnitario();
+
+        assertEquals(expectedValue, actualValue);
+    }
+
+
 }
